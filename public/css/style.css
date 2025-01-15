@@ -1,0 +1,329 @@
+/* body{
+    background-color: rgb(215, 172, 172);
+} */
+.navbar {
+  height: 5rem;
+  background-color: white;
+}
+.fa-compass {
+  color: rgb(255, 107, 107);
+  font-size: 2rem;
+}
+.nav-link {
+  color: #222222 !important;
+}
+/* .f-info-link a{
+    text-decoration: none;
+    color: #222222;
+    vertical-align: middle;
+ }
+ .f-info-link a:hover{
+    text-decoration: underline;
+  
+ }
+ .f-info-link,.f-info-social{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    
+ }
+ 
+ f-info-social i{
+    font-size: 1.2rem;
+    margin-right: 1rem;
+    
+ }
+ .f-info{
+    
+    text-align: center;
+    display: flex;
+    height: 8rem;
+    margin-top: 2rem;
+    background-color: gray;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+ } */
+/* Cards */
+.card {
+  border: none !important;
+}
+.body {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+/* boilerplate */
+.container {
+  flex: 1;
+}
+.add-btn {
+  /* color: rgb(255, 107, 107) ; */
+  background-color: rgb(255, 107, 107);
+  color: #222222;
+  border: none !important;
+}
+
+/* chatgpt footer code  */
+
+.f-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 8rem; /* Adjust as needed */
+  background-color: rgb(218, 209, 209);
+  padding: 1rem; /* Optional padding */
+}
+
+.f-info-social {
+  display: flex;
+  gap: 1rem; /* Space between icons */
+  margin-bottom: 0.5rem; /* Spacing below icons */
+}
+
+.f-info-social i {
+  font-size: 1.5rem; /* Adjust icon size */
+  color: #222222;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.f-info-social i:hover {
+  color: rgb(255, 107, 107); /* Highlight color on hover */
+}
+
+.f-info-brand {
+  font-size: 1rem;
+  margin-bottom: 0.5rem; /* Space below the brand text */
+  color: #222222;
+}
+
+.f-info-link {
+  display: flex;
+  gap: 1rem; /* Space between links */
+}
+
+.f-info-link a {
+  text-decoration: none;
+  color: #222222;
+  font-size: 0.9rem;
+}
+
+.f-info-link a:hover {
+  text-decoration: underline;
+  color: rgb(255, 107, 107); /* Highlight color on hover */
+}
+
+/* show page */
+.show-img {
+  height: 50vh;
+  border: 5rem;
+}
+
+/* for index.ejs animated buttons */
+.shake-btn:hover {
+  background-color: rgb(255, 107, 107);
+}
+.shake-btn:hover {
+  animation: shake 0.5s ease-in-out;
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+}
+
+/* for delete button */
+.delete-btn {
+  position: relative;
+  background-color: #dc3545;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #c82333; /* Darker red on hover */
+  transform: scale(1.1); /* Slight scaling effect */
+}
+
+.delete-btn:active {
+  transform: scale(0.9); /* Shrink button on click */
+  box-shadow: 0 4px 10px rgba(245, 241, 241, 0.878);
+}
+
+/* for edit button */
+.edit-btn {
+  position: relative;
+  background-color: #f18c64;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-btn:hover {
+  background-color: #f18c64; /* Darker red on hover */
+  transform: scale(1.1); /* Slight scaling effect */
+}
+
+.edit-btn:active {
+  transform: scale(0.9); /* Shrink button on click */
+  box-shadow: 0 4px 10px rgba(245, 241, 241, 0.878);
+}
+
+/* for home page  */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+
+/* Hero Section */
+.hero-section {
+  background-image: url("https://www.istockphoto.com/photo/hispanic-real-estate-agent-guides-homebuyers-during-viewing-gm2162651088-583036042?utm_campaign=srp_photos_top&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Freal-state&utm_medium=affiliate&utm_source=unsplash&utm_term=real+state%3A%3A%3A");
+  /* Image for hero */
+  background-size: cover;
+  background-position: center;
+  color: rgb(30, 25, 25);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.hero-section h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  animation: slideInLeft 2s ease-out;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  animation: slideInRight 2s ease-out;
+}
+
+.hero-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.hero-btn:hover {
+  background-color: #c82333;
+  transform: scale(1.1);
+}
+
+/* About Section */
+.about-section {
+  padding: 80px 0;
+  background-color: #ffffff;
+  animation: fadeInUp 2s ease-out;
+}
+
+.about-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.about-section p {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Services Section */
+.services-section {
+  padding: 80px 0;
+  background-color: #f8f9fa;
+}
+
+.service-card {
+  border: none;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+}
+
+.service-icon {
+  font-size: 3rem;
+  color: #dc3545;
+  margin-bottom: 15px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
