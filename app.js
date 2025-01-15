@@ -1,11 +1,15 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
-const port = 8080;
+
 const mongoose = require("mongoose");
 const Listing = require("./models/listings.js");
 const path = require("path");
 const engine = require("ejs-mate");
 const methodOverride = require("method-override");
+const port = process.env.PORT;
+const MONGO_URI = process.env.MONGO_URI;
+
 // const ejsLayouts = require('express-ejs-layouts');
 
 app.use(express.urlencoded({ extended: true }));
@@ -32,7 +36,7 @@ main()
     console.log(err);
   });
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/sharjeel");
+  await mongoose.connect(MONGO_URI);
 }
 
 // app.get("/listings",async(req,res)=>{
