@@ -1,54 +1,68 @@
 <%- layout('/layouts/boilerplate.ejs') %>
 
-<body>
-  <div class="row">
-    <div class="col-8 offset-2">
-      <h3>Edit Your Listing</h3>
-
-   
-  <form action="/listings/<%= alllistings._id %>/edit?_method=PATCH" method="POST">
-    
-    <div class="mb-3">
-      <label for="title" class="form-label">Title:</label>
-   
-    <input type="text" name="title" value="<%= alllistings.title %>" class="form-control">
-    </div>
-
-    <div class="mb-3">
-      <label for="description" class="form-label">Description:</label>
-      <textarea name="description" class="form-control"><%= alllistings.description %></textarea>
-    </div>
-   
-<div class="mb-3">
-  <label for="image" class="form-label">Image Link:</label>
-  <input type="text" name="image"  class="form-control">
-    </div>
-   
+  <body>
     <div class="row">
-      <div class="mb-3 col-md-4">
-        <label for="price" class="form-label">Price:</label>
-      <input type="number" name="price" value="<%= alllistings.price %>" class="form-control">
-         </div>
-  
-         <div class="mb-3-md-8">
-          <label for="country" class="form-label">Country:</label>
-          <input type="text" name="country" value="<%= alllistings.country %>" class="form-control">
-         </div>
+      <div class="col-8 offset-2">
+        <h3>Edit Your Listing</h3>
+
+
+        <form action="/listings/<%= alllistings._id %>/edit?_method=PATCH" method="POST" novalidate
+          class="needs-validation">
+
+          <div class="mb-3">
+            <label for="title" class="form-label">Title:</label>
+
+            <input type="text" name="listing[title]" value="<%= alllistings.title %>" class="form-control" required>
+            <div class="valid-feedback">Title looks good!</div>
+
+            <div class="invalid-feedback">Add valid Title!</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <textarea name="listing[description]" class="form-control"
+              required><%= alllistings.description %></textarea>
+            <div class="valid-feedback">Description looks good!</div>
+
+            <div class="invalid-feedback">Add Short Description!</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="image" class="form-label">Image Link:</label>
+            <input type="text" name="listing[image]" class="form-control" value="<%= alllistings.image %>" required>
+            <div class="invalid-feedback">Please Add Image Link!!</div>
+          </div>
+
+          <div class="row">
+            <div class="mb-3 col-md-4">
+              <label for="price" class="form-label">Price:</label>
+              <input type="number" name="listing[price]" value="<%= alllistings.price %>" class="form-control" required>
+              <div class="invalid-feedback">Add valid Price!</div>
+            </div>
+
+            <div class="mb-3-md-8">
+              <label for="country" class="form-label">Country:</label>
+              <input type="text" name="listing[country]" value="<%= alllistings.country %>" class="form-control"
+                required>
+              <div class="valid-feedback">Your country is Beautiful</div>
+
+              <div class="invalid-feedback">Add valid Country name!</div>
+            </div>
+          </div>
+
+
+          <div class="mb-3">
+            <label for="location" class="form-label">Location:</label>
+            <input type="text" name="listing[location]" value="<%= alllistings.location %>" class="form-control"
+              required>
+            <div class="invalid-feedback">Add valid Location!</div>
+          </div>
+
+
+
+
+          <button type="submit" class="btn btn-dark add-btn">Update Now</button><br><br>
+        </form>
+      </div>
     </div>
-    
-   
-    <div class="mb-3">
-      <label for="location" class="form-label">Location:</label>
-    <input type="text" name="location" value="<%= alllistings.location %>" class="form-control">
-    </div>
-    
-  
-   
-
-    <button type="submit" class="btn btn-dark add-btn">Update Now</button><br><br>
-  </form>
-</div>
-</div>
-</body>
-
-
+  </body>

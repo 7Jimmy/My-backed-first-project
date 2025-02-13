@@ -1,156 +1,129 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-
 const mongoose = require("mongoose");
-const Listing = require("./models/listings.js");
 const path = require("path");
 const engine = require("ejs-mate");
 const methodOverride = require("method-override");
-const port = process.env.PORT;
+const listingsRouter = require("./routes/listing.js");
+const reviewsRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
+const ExpressError = require("./utils/ExpressError.js");
+const Listing = require("./models/listings.js");
+const { listingSchema, reviewsSchema } = require("./schema.js");
+const wrapAsync = require("./utils/wrapAsync.js");
+const Review = require("./models/review.js");
+const session = require("express-session");
+const flash = require("connect-flash");
+const User = require("./models/user.js");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+
+const port = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI;
 
-// const ejsLayouts = require('express-ejs-layouts');
-
-app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride("_method"));
-// app.use(express.static(path.join(__dirname,"/public")))
-app.use(express.static(path.join(__dirname, "public")));
-
-app.use(express.static("public"));
+// ===== Setup EJS Engine and Views =====
+app.engine("ejs", engine);
+app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.engine("ejs", engine);
+// ===== Middleware =====
+app.use(express.urlencoded({ extended: true })); // Parses form data
+app.use(methodOverride("_method")); // Allows PUT and DELETE methods
+app.use(express.static(path.join(__dirname, "public"))); // Serves static files
 
-app.set("views", __dirname + "/views");
-app.set("view engine", "ejs");
-// app.use(ejsLayouts);
-
-//for setup database
-
+// ===== Database Connection =====
 main()
   .then(() => {
-    console.log("i am DB");
+    console.log("Connected to MongoDB");
   })
   .catch((err) => {
-    console.log(err);
+    console.error("Database connection error:", err);
   });
+
 async function main() {
   await mongoose.connect(MONGO_URI);
 }
 
-// app.get("/listings",async(req,res)=>{
-//     try {
-//         const newList=new Listing({
-//             title:"Sharjeel",
-//             description:"this is a good home",
-//             image:"https://media.istockphoto.com/id/2153863369/photo/a-national-monument-in-lahore-pakistan.jpg?s=2048x2048&w=is&k=20&c=WJV1TrR4hJA05YCueIfleLfk3v4HDQPtLNQtCCnbNGI=",
-//             price:120000,
-//             location:"wanotianwali,Punjab",
-//             country:"Pakistan"
-//         })
-//         await newList.save();
-//         res.send(newList);
-//     } catch (error) {
-//         console.log(error)
-//     }
-// })
+//======cookies middleware =====
+const sesstionOption = {
+  secret: "topSecret",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() * 7 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+  },
+};
+app.use(session(sesstionOption));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
-//all listings
-app.get("/listings", async (req, res) => {
-  try {
-    const alllistings = await Listing.find();
-    res.render("listings/index.ejs", { alllistings });
-  } catch (error) {
-    console.log(err);
-  }
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+
+  next();
+});
+app.get("/demo", async (req, res) => {
+  let fakeUser = new User({
+    email: "jimmykalair@gmail.com",
+    username: "jimmy",
+  });
+  let registerUser = await User.register(fakeUser, "love");
+  res.send(registerUser);
 });
 
-//for new post
-app.get("/listings/new", (req, res) => {
-  res.render("listings/new.ejs");
-});
+app.use("/listings", listingsRouter); // Listings routes
+//app.use("/listings/:id/reviews", reviews); // Reviews routes
+//app.use("/listings/:id/reviews", reviews);
+app.use(
+  "/listings/:id/reviews",
+  (req, res, next) => {
+    req.listingId = req.params.id; // Manually pass `id` to the reviews router
+    console.log(req.listingId);
+    next();
+  },
+  reviewsRouter
+);
+app.use("/", userRouter);
 
-app.post("/listings", async (req, res) => {
-  // const{title,description,price,location,country}=req.body;
-  // const listing=req.body.listing
-  const newList = new Listing(req.body.listing);
-  try {
-    //     const newList= new Listing({
-    //         title,
-    //         description,
-    //         price,
-    //         location,
-    //         country,
-    //     })
-    await newList.save();
-    console.log("save new post");
-    res.redirect("/listings");
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-//update route
-app.get("/listings/:id/edit", async (req, res) => {
-  const { id } = req.params;
-
-  const alllistings = await Listing.findById(id);
-  console.log(alllistings);
-  res.render("listings/edit.ejs", { alllistings });
-  // const{title,description,price,location,country}=req.body;
-  // try {
-
-  // } catch (error) {
-  //     console.log(error)
-  // }
-});
-
-app.patch("/listings/:id/edit", async (req, res) => {
-  const { id } = req.params;
-  const { title, description, image, price, location, country } = req.body;
-
-  try {
-    const showDetail = await Listing.findByIdAndUpdate(
-      id,
-      { title, description, image, price, location, country },
-      { new: true }
-    );
-
-    if (!showDetail) {
-      return res.status(404).send("Listing not found");
-    }
-
-    // Render the correct view that matches the updated data
-    res.render("listings/show.ejs", { showDetail });
-    console.log(showDetail);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("An error occurred while updating the listing.");
-  }
-});
-
-//for delete
-app.delete("/listings/:id", async (req, res) => {
-  const { id } = req.params;
-  await Listing.findByIdAndDelete(id);
-  res.redirect("/listings");
-});
-
-//show post
-app.get("/listings/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const showDetail = await Listing.findById(id);
-    res.render("listings/show.ejs", { showDetail });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
+// ===== Routes =====
 app.get("/", (req, res) => {
   res.render("listings/home.ejs");
 });
+
+// ===== Error Handling =====
+// Validation error handler
+const handleValidationError = (err) => {
+  console.log("Validation error:", err.message);
+  return err;
+};
+
+app.use((err, req, res, next) => {
+  if (err.name === "ValidationError") {
+    err = handleValidationError(err);
+  }
+  next(err);
+});
+
+// Catch-all route for undefined endpoints
+app.all("*", (req, res, next) => {
+  next(new ExpressError(404, "Page not found"));
+});
+
+// General error handler
+app.use((err, req, res, next) => {
+  const { status = 500, message = "Something went wrong" } = err;
+  res.status(status).render("error.ejs", { err });
+});
+
+// ===== Start Server =====
 app.listen(port, () => {
-  console.log("i am listing");
+  console.log(`Server running on port ${port}`);
 });
