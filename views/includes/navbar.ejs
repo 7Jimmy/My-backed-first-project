@@ -24,10 +24,21 @@
       <a class="nav-item nav-link active" href="/listings">All Listings</a>
       <a class="nav-item nav-link" href="/listings/new">Add New Listing</a>
     </div>
+    <div class="navbar-nav ml-auto">
+      <% if(!currentUser) {%>
+        <a class="nav-item nav-link" href="/login">Login</a>
+
+        <a class="nav-item nav-link" href="/signup">Sign up</a>
+        <% } %>
+          <% if(currentUser){ %>
+            <a class="nav-item nav-link active" href="/logout">Logout</a>
+            <% } %>
+    </div>
     <!-- Right-aligned buttons -->
-    <div class="ml-auto">
+    <!-- <div class="ml-auto">
+      <a href="/logout" class="btn edit-btn shake-btn:hover">Logout</a>
       <a href="/login" class="btn edit-btn shake-btn:hover">Login</a>
       <a href="/signup" class="btn edit-btn shake-btn:hover ml-2">Sign Up</a>
-    </div>
+    </div> -->
   </div>
 </nav>

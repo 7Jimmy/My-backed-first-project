@@ -9,6 +9,7 @@ router.use(methodOverride("_method"));
 
 const wrapAsync = require("../utils/wrapAsync.js");
 const { listingSchema, reviewsSchema } = require("../schema.js");
+const { isLoggedIn } = require("../middleware.js");
 
 //middleware for schema validation
 const validateListing = (req, res, next) => {
@@ -35,7 +36,9 @@ router.get(
 );
 
 //for new post
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
+  console.log(req.user);
+
   res.render("listings/new.ejs");
 });
 
@@ -45,7 +48,9 @@ router.get(
   wrapAsync(async (req, res, next) => {
     const { id } = req.params;
 
-    const showDetail = await Listing.findById(id).populate("reviews");
+    const showDetail = await Listing.findById(id)
+      .populate("reviews")
+      .populate("owner");
 
     if (!showDetail) {
       req.flash("error", "Listing you are requested dose not exist");
@@ -54,17 +59,20 @@ router.get(
     if (!showDetail) {
       next(new ExpressError(403, "chat not found"));
     }
+    console.log(showDetail);
     res.render("listings/show.ejs", { showDetail });
   })
 );
 router.post(
   "/",
+  isLoggedIn,
   validateListing,
   wrapAsync(async (req, res, next) => {
     console.log(req.body.listing);
 
     const newList = new Listing(req.body.listing);
 
+    newList.owner = req.user._id;
     try {
       await newList.save();
       console.log(req.body);
@@ -92,6 +100,7 @@ router.post(
 //update route
 router.get(
   "/:id/edit",
+  isLoggedIn,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
 
@@ -113,6 +122,7 @@ router.get(
 
 router.patch(
   "/:id/edit",
+  isLoggedIn,
   validateListing,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
@@ -138,6 +148,7 @@ router.patch(
 //for delete
 router.delete(
   "/:id",
+  isLoggedIn,
   wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const deleteChat = await Listing.findByIdAndDelete(id);

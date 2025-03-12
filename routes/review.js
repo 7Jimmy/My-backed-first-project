@@ -8,6 +8,7 @@ const Review = require("../models/review.js");
 const ExpressError = require("../utils/ExpressError.js");
 const methodOverride = require("method-override");
 router.use(methodOverride("_method"));
+const { isLoggedIn } = require("../middleware.js");
 
 //Reviews
 
@@ -23,6 +24,7 @@ const validateReviews = (req, res, next) => {
 //post route
 router.post(
   "/",
+  isLoggedIn,
   validateReviews,
   wrapAsync(async (req, res, next) => {
     const id = req.listingId;
@@ -47,6 +49,7 @@ router.post(
 
 router.delete(
   "/:reviewId",
+  isLoggedIn,
   wrapAsync(async (req, res) => {
     const id = req.listingId;
     const { reviewId } = req.params;
