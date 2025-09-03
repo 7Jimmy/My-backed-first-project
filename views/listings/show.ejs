@@ -35,18 +35,77 @@
                                 <button class="btn btn-dark btn-danger delete-btn">Delete </button>
                             </form>
                         </div>
+                        <div class="col-12 ">
+                            <form action="/listings/<%= showDetail._id %>/reviews" method="post" novalidate
+                                class="needs-validation">
+                                <hr>
+                                <h3>Leave a Review</h3>
+
+                                <div class=" mb-3 mt-3">
+                                    <label for="rating" class="form-label">Rating</label>
+                                    <input type="range" min="1" max="5" id="rating" name="review[rating]"
+                                        class="form-range">
+                                </div>
+                                <div mb-3 mt-3>
+                                    <label for="comment" class="form-label">Comment</label>
+                                    <textarea name="review[comment]" class="form-control" id="" cols="30" rows="5"
+                                        required></textarea>
+                                    <div class="valid-feedback">Thanks for add comment</div>
+                                    <div class="invalid-feedback">First add someThing !</div>
+                                </div>
+                                <button class="btn edit-btn btn-outline-dark mt-3">Submit</button>
+                            </form>
+                            <hr>
+                            <div class="container my-4">
+                                <p><b>All Reviews</b></p>
+                                <div class="row g-4">
+                                    <% for (review of showDetail.reviews) { %>
+                                        <div class="col-md-6">
+                                            <!-- Each card occupies 6 columns, so only 2 cards fit in one row -->
+                                            <div class="card shadow-sm border-0 rounded listing-cards mg-3">
+                                                <div class="card-body">
+                                                    <h5 class="card-title text-primary fw-bold">Sharjeel</h5>
+                                                    <p class="card-text text-muted">
+                                                        <%= review.comment %>
+                                                    </p>
+                                                    <p class="card-text">
+                                                        <span class="badge bg-warning text-dark">
+                                                            <%= review.rating %> Stars
+                                                        </span>
+                                                    </p>
+                                                    <form
+                                                        action="/listings/<%= showDetail._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                                        method="post" class="mb-3">
+                                                        <button class="btn btn-sm btn-dark">Delete</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+
                     </div>
-
-
-
-
-
-
-
-
 
                 </div>
 
+
+
+
+
+
+
+
+
             </div>
+
+        </div>
         </div>
     </body>

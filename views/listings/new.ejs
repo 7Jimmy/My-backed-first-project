@@ -4,38 +4,56 @@
         <div class="row">
             <div class="col-8 offset-2">
                 <h3>Create a New List</h3>
-                <form action="/listings" method="post">
+                <form action="/listings" method="post" novalidate class="needs-validation">
                     <div>
                         <label for="title" class="form-label">Title:</label>
-                        <input type="text" placeholder="Add a catchy title" name="listing[title]"
-                            class="form-control"><br>
+                        <input type="text" placeholder="Add a catchy title" name="listing[title]" class="form-control"
+                            required>
+                        <div class="valid-feedback">Title looks good!</div>
+
+                        <div class="invalid-feedback">Add valid Title!</div>
+
                     </div>
                     <div>
                         <label for="description" class="form-label">Description:</label>
-                        <textarea name="listing[description]" class="form-control"></textarea><br>
+                        <textarea name="listing[description]" class="form-control" required></textarea>
+                        <div class="valid-feedback">Description looks good!</div>
+
+                        <div class="invalid-feedback">Add Short Description!</div>
                     </div>
                     <div>
                         <label for="image" class="form-label">Image Link:</label>
-                        <input type="text" name="listing[image]" placeholder="Image URL" class="form-control"><br>
+                        <input type="text" name="listing[image]" placeholder="Image URL" class="form-control">
+
                     </div>
 
                     <div class="row">
                         <div class=" col-md-4">
                             <label for="price" class="form-label">Price:</label>
-                            <input type="number" placeholder="Rs.12000" name="listing[price]" class="form-control"><br>
+                            <input placeholder="Rs.12000" name="listing[price]" class="form-control" required>
+
+
+                            <div class="invalid-feedback">Add valid Price!</div>
                         </div>
 
 
                         <div class=" col-md-8">
                             <label for="country" class="form-label">Country:</label>
-                            <input type="text" placeholder="Pakistan" name="listing[country]" class="form-control"><br>
+                            <input type="text" placeholder="Pakistan" name="listing[country]" class="form-control"
+                                required>
+                            <div class="valid-feedback">Your country is Beautiful</div>
+
+                            <div class="invalid-feedback">Add valid Country name!</div>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="location" class="form-label">Location:</label>
                         <input type="text" placeholder="Valancia Town,Lahore" name="listing[location]"
-                            class="form-control"><br>
+                            class="form-control" required>
+                        <div class="valid-feedback">Wahoo! This is a beautiful Location</div>
+
+                        <div class="invalid-feedback">Add valid Location!</div>
                     </div>
 
 
